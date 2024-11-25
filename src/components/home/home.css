@@ -1,0 +1,56 @@
+/* Overall container styles */
+.product-display-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+/* Page title */
+.product-display-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 32px;
+  color: #333;
+}
+
+/* Row styles */
+.ant-row {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+/* Card styles */
+.ant-card {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ant-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Card cover image */
+.ant-card-cover img {
+  height: 150px;
+  object-fit: cover;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Card meta description */
+.ant-card-meta-description p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Button styles */
+.create-product-button {
+  display: block;
+  margin: 20px auto;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: bold;
+}
