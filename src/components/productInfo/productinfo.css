@@ -1,10 +1,91 @@
-.jewelry-detail-container {
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
-  }
+
   
   .ant-card {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
 
+  .jewelry-detail-container {
+    padding: 20px;
+  }
+  
+  .button-group {
+    display: flex;
+    flex-wrap: wrap;  /* 自动换行 */
+    gap: 16px;  /* 设置按钮之间的间距 */
+    margin-top: 20px;
+  }
+  
+  .button-group .ant-btn {
+    flex: 1 1 200px;  /* 每个按钮占用一个自适应的空间 */
+    max-width: 220px;  /* 控制按钮的最大宽度 */
+    height: 40px;  /* 控制按钮的高度 */
+    font-size: 16px;  /* 设置按钮文字大小 */
+  }
+  
+  @media (max-width: 768px) {
+    .button-group .ant-btn {
+      flex: 1 1 100%;  /* 在小屏幕下，按钮占满整行 */
+      margin-bottom: 12px;  /* 在按钮之间加一点间距 */
+    }
+  }
+  
+  .jewelry-detail-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .jewelry-detail-container .ant-card {
+    margin-bottom: 20px;
+  }
+  
+  
+  .lifecycle-details {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+  
+  .lifecycle-details h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .lifecycle-details p {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .lifecycle-details b {
+    color: #333;
+  }
+  
+  .lifecycle-details .lifecycle-stage {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: #eaf3f7;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .lifecycle-details .lifecycle-stage.completed {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .lifecycle-details .lifecycle-stage.in-progress {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+  
+  .lifecycle-details .lifecycle-stage.pending {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  

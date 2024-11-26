@@ -1,15 +1,26 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./createProduct.css";
 
-const ProductForm = () => {
+const ProductForm = ({ addProduct }) => {
   const [productName, setProductName] = useState("");
   const [description, setDescription] = useState("");
-  const [productStage, setProductStage] = useState("");
+  const [productgrade, setProductgrade] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = () => {
-    console.log("Product Name:", productName);
-    console.log("Description:", description);
-    console.log("Product Stage:", productStage);
+    const newProduct = {
+      id: Date.now(), // 使用当前时间戳生成唯一 ID
+      name: productName,
+      thumbnail: "https://via.placeholder.com/150",
+      currentStage: "unminted", // 初始阶段为未铸造
+      grade: productgrade || "VVS1", // 使用输入的品级或默认品级
+    };
+
+    // 调用父组件传递的 addProduct 方法来更新 diamonds
+    addProduct(newProduct);
+    
+    navigate("/"); // 提交后跳转回主页
   };
 
   return (
@@ -31,9 +42,9 @@ const ProductForm = () => {
         <input
           className="input-field product-stage"
           type="text"
-          placeholder="Product Stage"
-          value={productStage}
-          onChange={(e) => setProductStage(e.target.value)}
+          placeholder="Product grade"
+          value={productgrade}
+          onChange={(e) => setProductgrade(e.target.value)}
         />
         <button className="submit-button" onClick={handleSubmit}>
           Enter
@@ -44,4 +55,3 @@ const ProductForm = () => {
 };
 
 export default ProductForm;
-

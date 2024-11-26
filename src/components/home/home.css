@@ -8,9 +8,12 @@
 /* Page title */
 .product-display-container h1 {
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 32px;
+  margin-bottom: 30px;
+  font-size: 36px;
+  font-weight: bold;
   color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 /* Row styles */
@@ -21,36 +24,76 @@
 
 /* Card styles */
 .ant-card {
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .ant-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
 /* Card cover image */
 .ant-card-cover img {
-  height: 150px;
+  height: 200px;
   object-fit: cover;
-  border-bottom: 1px solid #f0f0f0;
+  width: 100%;
+  border-bottom: 2px solid #f0f0f0;
+  transition: transform 0.3s ease;
+}
+
+.ant-card:hover .ant-card-cover img {
+  transform: scale(1.05); /* Slight zoom effect on hover */
 }
 
 /* Card meta description */
 .ant-card-meta-description p {
-  margin: 0;
+  margin: 5px 0;
   font-size: 14px;
   color: #666;
+}
+
+.ant-card-meta-description p:first-of-type {
+  font-weight: bold;
+  color: #333;
 }
 
 /* Button styles */
 .create-product-button {
   display: block;
-  margin: 20px auto;
-  padding: 8px 16px;
-  font-size: 16px;
+  margin: 30px auto 0;
+  padding: 10px 20px;
+  font-size: 18px;
   font-weight: bold;
+  background-color: #1890ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.create-product-button:hover {
+  background-color: #40a9ff;
+  transform: scale(1.05);
+}
+
+.create-product-button:focus {
+  outline: none;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .product-display-container h1 {
+    font-size: 28px;
+  }
+
+  .ant-card-cover img {
+    height: 180px;
+  }
+
+  .create-product-button {
+    width: 100%;
+  }
 }

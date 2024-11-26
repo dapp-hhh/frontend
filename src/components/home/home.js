@@ -1,43 +1,12 @@
 import React from "react";
 import { Card, Button, Row, Col } from "antd";
 import { useNavigate } from "react-router-dom";
-import './home.css'
+import './home.css';
+
 const { Meta } = Card;
 
-const Home = () => {
+const Home = ({ diamonds }) => {
   const navigate = useNavigate();
-
-  // 模拟数据
-  const diamonds = [
-    {
-      id: 1,
-      name: "Brilliant Spark",
-      thumbnail: "https://via.placeholder.com/150",
-      currentStage: "Cutting & Polishing",
-      grade: "VVS1",
-    },
-    {
-      id: 2,
-      name: "Radiant Lustre",
-      thumbnail: "https://via.placeholder.com/150",
-      currentStage: "Quality Control",
-      grade: "VS2",
-    },
-    {
-      id: 3,
-      name: "Eternal Shine",
-      thumbnail: "https://via.placeholder.com/150",
-      currentStage: "In Possession",
-      grade: "IF",
-    },
-    {
-      id: 4,
-      name: "Timeless Glow",
-      thumbnail: "https://via.placeholder.com/150",
-      currentStage: "Customer Ownership",
-      grade: "SI1",
-    },
-  ];
 
   return (
     <div style={{ padding: "20px" }}>
@@ -47,13 +16,7 @@ const Home = () => {
           <Col xs={24} sm={12} md={8} lg={6} key={diamond.id}>
             <Card
               hoverable
-              cover={
-                <img
-                  alt={`${diamond.name} thumbnail`}
-                  src={diamond.thumbnail}
-                  style={{ height: "150px", objectFit: "cover" }}
-                />
-              }
+              cover={<img alt={`${diamond.name} thumbnail`} src={diamond.thumbnail} style={{ height: "150px", objectFit: "cover" }} />}
               onClick={() => navigate(`/productinfo/${diamond.id}`)}
             >
               <Meta
@@ -70,11 +33,7 @@ const Home = () => {
           </Col>
         ))}
       </Row>
-      <Button
-        type="primary"
-        style={{ marginTop: "20px" }}
-        onClick={() => navigate("/createProduct")}
-      >
+      <Button type="primary" style={{ marginTop: "20px" }} onClick={() => navigate("/createProduct")}>
         Create Product
       </Button>
     </div>
@@ -82,4 +41,3 @@ const Home = () => {
 };
 
 export default Home;
-
