@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Card, Button, message } from "antd";
 import "./productinfo.css";
+import getContract from "/Users/yishu/Desktop/frontend/src/contract";
 
 const ProductInfo = ({ diamonds, setDiamonds }) => {
   const { id } = useParams(); // 从路由中获取珠宝ID
@@ -17,6 +18,7 @@ const ProductInfo = ({ diamonds, setDiamonds }) => {
 
   const handleLifecycleUpdate = async (stage) => {
     try {
+      const contract = await getContract();
       const currentTime = new Date().toISOString();
 
       // 更新珠宝的生命周期状态

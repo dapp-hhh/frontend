@@ -8,6 +8,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import React, { useState } from "react";
 
 
+
+
 function App() {
   const [diamonds, setDiamonds] = useState([
     {
@@ -45,8 +47,13 @@ function App() {
     setDiamonds((prevDiamonds) => [...prevDiamonds, newProduct]);
   };
 
+
+
+  
+
   return (
     <Router>
+       
       <Routes>
         <Route path="/" element={<Home diamonds={diamonds} />} />
         <Route path="/productinfo/:id" element={<ProductInfo diamonds={diamonds} setDiamonds={setDiamonds} />} />
