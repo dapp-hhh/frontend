@@ -15,4 +15,7 @@ const getContract = () => {
   return new ethers.Contract(contractAddress, JewelryLifecycleABI, signer);
 };
 
+
+
+
 export default getContract;

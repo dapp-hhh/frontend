@@ -4,6 +4,7 @@ import { Card, Button, message } from "antd";
 import "./productinfo.css";
 import getContract from "/Users/yishu/Desktop/frontend/src/contract";
 
+
 const ProductInfo = ({ diamonds, setDiamonds }) => {
   const { id } = useParams(); // 从路由中获取珠宝ID
   const [jewelry, setJewelry] = useState(null);
@@ -20,21 +21,21 @@ const ProductInfo = ({ diamonds, setDiamonds }) => {
     try {
       const contract = await getContract();
       const currentTime = new Date().toISOString();
-
+  
       // 更新珠宝的生命周期状态
       setJewelry((prevJewelry) => {
         const updatedJewelry = { ...prevJewelry, currentStage: stage, timestamp: currentTime };
-
+  
         // 根据阶段更新时间戳
         switch(stage) {
-          case "Mining":
-            updatedJewelry.miningTimestamp = currentTime;
-            break;
           case "Cutting & Polishing":
             updatedJewelry.cuttingTimestamp = currentTime;
             break;
           case "Laser Engraving":
             updatedJewelry.engravingTimestamp = currentTime;
+            break;
+          case "Enter Market":
+            updatedJewelry.inStockTimestamp = currentTime; // 记录进入市场时间
             break;
           case "Designing & Inlaying":
             updatedJewelry.designTimestamp = currentTime;
@@ -48,7 +49,7 @@ const ProductInfo = ({ diamonds, setDiamonds }) => {
           default:
             break;
         }
-
+  
         // 更新整个 diamonds 数组
         const updatedDiamonds = diamonds.map((diamond) =>
           diamond.id === prevJewelry.id ? updatedJewelry : diamond
@@ -61,6 +62,7 @@ const ProductInfo = ({ diamonds, setDiamonds }) => {
       message.error(`Failed to update lifecycle stage: ${stage}`);
     }
   };
+  
 
   const getLifecycleStatusClass = (timestamp) => {
     if (timestamp) {
@@ -78,14 +80,14 @@ const ProductInfo = ({ diamonds, setDiamonds }) => {
 
   const displayLifecycleDetails = (jewelry) => {
     const stages = [
-      { stage: "Mining", timestamp: jewelry.miningTimestamp },
       { stage: "Cutting & Polishing", timestamp: jewelry.cuttingTimestamp },
       { stage: "Laser Engraving", timestamp: jewelry.engravingTimestamp },
+      { stage: "Enter Market", timestamp: jewelry.inStockTimestamp }, // 新增阶段
       { stage: "Designing & Inlaying", timestamp: jewelry.designTimestamp },
       { stage: "Customer Purchasing", timestamp: jewelry.purchasingTimestamp },
       { stage: "Ownership Transferred", timestamp: jewelry.ownershipTransferredTimestamp },
     ];
-
+  
     return (
       <div className="lifecycle-details">
         <h3>Lifecycle Details</h3>
@@ -101,6 +103,7 @@ const ProductInfo = ({ diamonds, setDiamonds }) => {
       </div>
     );
   };
+  
 
   if (!jewelry) return <div>Loading...</div>;
 
@@ -117,13 +120,49 @@ const ProductInfo = ({ diamonds, setDiamonds }) => {
       {displayLifecycleDetails(jewelry)}
 
       <div className="button-group">
-        <Button onClick={() => handleLifecycleUpdate("Mining")} type="primary">Mining</Button>
-        <Button onClick={() => handleLifecycleUpdate("Cutting & Polishing")} type="primary">Cutting & Polishing</Button>
-        <Button onClick={() => handleLifecycleUpdate("Laser Engraving")} type="primary">Laser Engraving</Button>
-        <Button onClick={() => handleLifecycleUpdate("Designing & Inlaying")} type="primary">Designing & Inlaying</Button>
-        <Button onClick={() => handleLifecycleUpdate("Customer Purchasing")} type="primary">Customer Purchasing</Button>
-        <Button onClick={() => handleLifecycleUpdate("Ownership Transferred")} type="primary">Ownership Transferred</Button>
-      </div>
+      <Button 
+    onClick={() => handleLifecycleUpdate("Cutting & Polishing")} 
+    type="primary"
+    disabled={jewelry.currentStage !== "MINED"} // 按钮仅在 MINED 阶段后启用
+  >
+    Cutting & Polishing
+  </Button>
+  <Button 
+    onClick={() => handleLifecycleUpdate("Laser Engraving")} 
+    type="primary"
+    disabled={jewelry.currentStage !== "Cutting & Polishing"} // 按钮仅在 POLISHED 阶段后启用
+  >
+    Laser Engraving
+  </Button>
+  <Button 
+    onClick={() => handleLifecycleUpdate("Enter Market")} 
+    type="primary" 
+    disabled={jewelry.currentStage !== "Laser Engraving"} // 按钮仅在 Laser Engraving 阶段后启用
+  >
+    Enter Market
+  </Button>
+  <Button 
+    onClick={() => handleLifecycleUpdate("Designing & Inlaying")} 
+    type="primary" 
+    disabled={jewelry.currentStage !== "Enter Market"} // 按钮仅在 IN_STOCK 阶段后启用
+  >
+    Designing & Inlaying
+  </Button>
+  <Button 
+    onClick={() => handleLifecycleUpdate("Customer Purchasing")} 
+    type="primary" 
+    disabled={jewelry.currentStage !== "Designing & Inlaying"} // 按钮仅在 DESIGNED 阶段后启用
+  >
+    Customer Purchasing
+  </Button>
+  <Button 
+    onClick={() => handleLifecycleUpdate("Ownership Transferred")} 
+    type="primary" 
+    disabled={jewelry.currentStage !== "Customer Purchasing"} // 按钮仅在 PURCHASED 阶段后启用
+  >
+    Ownership Transferred
+  </Button>
+</div>
     </div>
   );
 };

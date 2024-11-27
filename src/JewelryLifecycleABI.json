@@ -439,34 +439,6 @@
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "_miningCompany",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_cuttingCompany",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_gradingLab",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_jewelryMaker",
-				"type": "address"
-			}
-		],
-		"name": "setRoles",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "bytes",
 				"name": "_sig",
 				"type": "bytes"

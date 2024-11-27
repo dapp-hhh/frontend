@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./createProduct.css";
-import getContract from "/Users/yishu/Desktop/frontend/src/contract";  // 导入getContract
+import getContract from "../../contract";  // 导入getContract
 
 const ProductForm = ({ addProduct }) => {
   const [productName, setProductName] = useState("");
@@ -31,7 +31,7 @@ console.log("Receipt Details:", await transaction.wait());
         id: Date.now(), // 使用当前时间戳生成唯一 ID
         name: productName,
         thumbnail: "https://via.placeholder.com/150",
-        currentStage: "unminted", // 初始阶段为未铸造
+        currentStage: "MINED", // 初始阶段为未铸造
         grade: productgrade || "VVS1", // 使用输入的品级或默认品级
       };
 
