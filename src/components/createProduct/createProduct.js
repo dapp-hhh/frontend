@@ -1,80 +1,106 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./createProduct.css";
-import getContract from "../../contract";  // 导入getContract
+import "./createProduct.css"; // 引入样式文件
+import getContract from "../../contract"; // 获取合约实例的方法
 
-const ProductForm = ({ addProduct }) => {
-  const [productName, setProductName] = useState("");
-  const [description, setDescription] = useState("");
-  const [productgrade, setProductgrade] = useState("");
+const CreateProduct = () => {
+  const [productName, setProductName] = useState(""); // 额外的输入框 - 产品名称
+  const [description, setDescription] = useState(""); // 产品描述
+  const [productGrade, setProductGrade] = useState(""); // 额外的输入框 - 产品等级
+  const [loading, setLoading] = useState(false); // 加载状态
   const navigate = useNavigate();
 
-  // 处理表单提交
-  const handleSubmit = async () => {
-    const contract = getContract();
-    
-    if (!contract) {
-      alert("Contract not found!");
+  const statusMapping = {
+    0: "MINED",
+    1: "POLISHED",
+    2: "GRADED",
+    3: "IN_STOCK",
+    4: "DESIGNED",
+    5: "SOLD",
+  };
+
+  const handleCreate = async () => {
+    if (!description) {
+      alert("Please enter a description for the product!");
       return;
     }
 
+    setLoading(true);
     try {
-      // 调用智能合约的createJewelry函数，传入描述
-      const transaction = await contract.createJewelry(description);
-      console.log("Transaction Details:", transaction);
-console.log("Receipt Details:", await transaction.wait());
+      const contract = getContract();
+      if (!contract) {
+        console.error("Failed to load contract.");
+        setLoading(false);
+        return;
+      }
+
+      // 调用合约的 createJewelry 方法
+      const tx = await contract.createJewelry(description);
+      console.log("Transaction sent. Waiting for confirmation...", tx);
+
       // 等待交易确认
-      await transaction.wait();
+      const receipt = await tx.wait();
+      console.log("Transaction confirmed.", receipt);
 
-      // 构造新产品对象
-      const newProduct = {
-        id: Date.now(), // 使用当前时间戳生成唯一 ID
-        name: productName,
-        thumbnail: "https://via.placeholder.com/150",
-        currentStage: "MINED", // 初始阶段为未铸造
-        grade: productgrade || "VVS1", // 使用输入的品级或默认品级
-      };
+      // 获取新商品信息
+      const jewelryCount = await contract.jewelryCount();
+      const newJewelry = await contract.jewelries(jewelryCount);
 
-      // 调用父组件传递的 addProduct 方法来更新 diamonds
-      addProduct(newProduct);
-      alert("Jewelry created successfully!");
-      
-      navigate("/"); // 提交后跳转回主页
+      console.log("Newly Created Jewelry:", {
+        id: newJewelry.id.toString(),
+        description: newJewelry.description,
+        status: statusMapping[newJewelry.status],
+        timestamp: new Date(newJewelry.timestamp * 1000).toLocaleString(),
+        owner: newJewelry.currentOwner,
+      });
+
+      alert("Product created successfully!");
+
+      // 跳转回首页
+      navigate("/");
     } catch (error) {
-      console.error("Error creating jewelry:", error);
-      alert("Error creating jewelry. Please try again.");
+      console.error("Error creating product:", error);
+      alert("Failed to create product. Check console for details.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="product-form-container">
+      
       <div className="product-form-box">
+        {/* 输入框：产品名称 */}
         <input
           className="input-field product-name"
           type="text"
-          placeholder="Enter the product name"
+          placeholder="Enter the product name (optional)"
           value={productName}
           onChange={(e) => setProductName(e.target.value)}
         />
+        {/* 输入框：描述 */}
         <textarea
           className="input-field description"
-          placeholder="Description"
+          placeholder="Enter the product description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          required
         />
+        {/* 输入框：等级 */}
         <input
-          className="input-field product-stage"
+          className="input-field product-grade"
           type="text"
-          placeholder="Product grade"
-          value={productgrade}
-          onChange={(e) => setProductgrade(e.target.value)}
+          placeholder="Enter the product grade (optional)"
+          value={productGrade}
+          onChange={(e) => setProductGrade(e.target.value)}
         />
-        <button className="submit-button" onClick={handleSubmit}>
-          Enter
+        {/* 提交按钮 */}
+        <button className="submit-button" onClick={handleCreate} disabled={loading}>
+          {loading ? "Creating..." : "Create Product"}
         </button>
       </div>
     </div>
   );
 };
 
-export default ProductForm;
+export default CreateProduct;
